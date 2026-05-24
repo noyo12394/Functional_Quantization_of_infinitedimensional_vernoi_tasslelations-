@@ -8,6 +8,22 @@ Functional quantization (FQ) replaces a random field by a small weighted set of 
 
 ![Pareto teaser](results/sample/figures/pareto_R4096.png)
 
+## Visible sample results
+
+The repository includes a lightweight pre-run sample under `results/sample/` so the figures render immediately on GitHub before a full paper-scale run.
+
+| Benchmark samples | Timing and distortion |
+|---|---|
+| ![Sample random-field realizations](results/sample/figures/fig2_sample_realizations.png) | ![Mean computational time](results/sample/figures/fig6_mean_time.png) |
+| ![Relative distortion boxplots](results/sample/figures/fig3_rd_boxplots.png) | ![Relative distortion trend](results/sample/figures/fig4_rd_trend.png) |
+| ![Iterations to CVT](results/sample/figures/fig8_iter_cvt.png) | ![M1-M4 accuracy metrics](results/sample/figures/fig9_accuracy.png) |
+| ![Pareto plot](results/sample/figures/pareto_R256.png) | ![Pareto teaser](results/sample/figures/pareto_R4096.png) |
+
+| Seismic application samples | Correction checks |
+|---|---|
+| ![Seismic geometry](results/sample/figures/seismic_geometry.png) | ![Jayaram and Baker correlation decay](results/sample/figures/seismic_correlation_decay.png) |
+| ![Sample exceedance contour](results/sample/figures/seismic_exceedance_sample.png) | |
+
 ## What this repo contains
 
 The benchmark notebook tests 15 clustering methods across 8 resolutions measuring computational time (100 experiments each), sum of squared errors (SSE), and iterations to centroidal Voronoi tessellation (CVT), producing all paper figures. It includes exhaustive Lloyd, Elkan acceleration, Ward hierarchical clustering, one-pass nearest-neighbor methods, minibatch variants, random projection variants, and continuation methods.
