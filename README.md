@@ -4,13 +4,13 @@ Sena Mursel, Daniel Conus, Wei-Min Huang, Manuel Miranda, and Paolo Bocchini. Jo
 
 Functional quantization (FQ) replaces a random field by a small weighted set of representative fields, and this repository reproduces the paper's clustering benchmark and seismic-hazard application from source code.
 
-[![CI passing](https://img.shields.io/badge/CI-passing-brightgreen)](#) [![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-blue)](#) [![License MIT](https://img.shields.io/badge/License-MIT-green)](LICENSE) [![DOI placeholder](https://img.shields.io/badge/DOI-placeholder-lightgrey)](#)
+[![CI](https://github.com/noyo12394/Functional_Quantization_of_infinitedimensional_vernoi_tasslelations-/actions/workflows/ci.yml/badge.svg)](https://github.com/noyo12394/Functional_Quantization_of_infinitedimensional_vernoi_tasslelations-/actions/workflows/ci.yml) [![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-blue)](#) [![License MIT](https://img.shields.io/badge/License-MIT-green)](LICENSE) [![DOI pending](https://img.shields.io/badge/DOI-pending-lightgrey)](#)
 
 ![Pareto teaser](results/sample/figures/pareto_R4096.png)
 
 ## Visible sample results
 
-The repository includes a lightweight pre-run sample under `results/sample/` so the figures render immediately on GitHub before a full paper-scale run.
+The repository includes a lightweight pre-run sample under `results/sample/` so the figures render immediately on GitHub before a full paper-scale run. These images are smoke-test artifacts, not a substitute for the final paper results; regenerate paper-scale figures with the commands below after the updated result set is ready.
 
 | Benchmark samples | Timing and distortion |
 |---|---|
@@ -33,12 +33,37 @@ The seismic application applies the best method, FQ-IDCVT, to spatially correlat
 ## Quick-start (5 commands)
 
 ```bash
-git clone https://github.com/YOUR_ORG/fq-random-fields
-cd fq-random-fields
+git clone https://github.com/noyo12394/Functional_Quantization_of_infinitedimensional_vernoi_tasslelations-.git
+cd Functional_Quantization_of_infinitedimensional_vernoi_tasslelations-
 conda env create -f environment.yml && conda activate fq-rf
 pip install -e .
 jupyter lab notebooks/01_algorithm_benchmark.ipynb
 ```
+
+## End-to-end reproduction
+
+Run the lightweight checks first:
+
+```bash
+make setup
+make test
+make smoke
+```
+
+Run a compact sample that updates `results/sample/`:
+
+```bash
+make sample
+```
+
+Run paper-scale jobs when you are ready to spend the compute time:
+
+```bash
+python scripts/run_benchmark.py --n_exp 100 --nsim 3000 --R 128 256 512 1024 2048 4096 8192 16384 --methods LX LE HT KN LK HK MB ANN-FQ RP-ANN-FQ KD-ANN-FQ MR-FQ CE-LE CE-MB SVD-CE-LE RP-CE-LE --results results/runtime/benchmark_full
+python scripts/run_seismic.py --N 50 200 --max_iter 150 --out results/runtime/seismic_full
+```
+
+See [docs/reproducibility.md](docs/reproducibility.md) for the full clean-clone workflow, compute notes, and artifact policy.
 
 ## Methods table
 
@@ -109,6 +134,8 @@ class MyMethod(FQAlgorithm):
 **Benchmark:** if `DATA_PATH` CSV is absent, a synthetic lognormal process is auto-generated from the paper's $S^1_{FF}(\omega)$ spectrum (Eq. 6) using `fq.data.synthesize_paper_data()`.
 
 **Seismic:** all inputs are fully parameterised (fault coordinates, AS97 coefficients, J&B 2009 correlation length). No external data download needed.
+
+See [data/README.md](data/README.md) for where to place optional external CSV inputs and which result files should remain uncommitted.
 
 ## Reproducing all paper figures
 

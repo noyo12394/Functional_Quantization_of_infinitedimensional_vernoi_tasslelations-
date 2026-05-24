@@ -16,5 +16,5 @@ authors:
   - family-names: Bocchini
     given-names: Paolo
 license: MIT
-repository-code: https://github.com/YOUR_ORG/fq-random-fields
+repository-code: https://github.com/noyo12394/Functional_Quantization_of_infinitedimensional_vernoi_tasslelations-
 abstract: Reproducible code for clustering algorithms used in functional quantization of random fields.
