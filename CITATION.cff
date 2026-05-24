@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+title: Different clustering algorithms for the functional quantization of random fields
+message: If you use this repository, please cite the associated paper.
+type: software
+version: 0.1.0
+date-released: 2024-10-01
+authors:
+  - family-names: Mursel
+    given-names: Sena
+  - family-names: Conus
+    given-names: Daniel
+  - family-names: Huang
+    given-names: Wei-Min
+  - family-names: Miranda
+    given-names: Manuel
+  - family-names: Bocchini
+    given-names: Paolo
+license: MIT
+repository-code: https://github.com/YOUR_ORG/fq-random-fields
+abstract: Reproducible code for clustering algorithms used in functional quantization of random fields.

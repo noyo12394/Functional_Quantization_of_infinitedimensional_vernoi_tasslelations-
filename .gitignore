@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ipynb_checkpoints/
+notebooks/*.py
+notebooks/*.smoke.ipynb
+notebooks/results/
+*.egg-info/
+.env
+.venv/
+build/
+dist/
+results/**/*.pkl
+results/**/*.pickle
+results/runtime/
