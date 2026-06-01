@@ -1,0 +1,6 @@
+Method,SSE (distortion),RD vs LX (%),Lloyd iters,Fit time (s),Empty quanta,Var captured,Max exc. err,Mean exc. err,Max ACF err,Mean ACF err
+Lloyd (random init),1.600e+05,+0.00,7,0.05,1,26.8%,0.2880,0.0931,0.7093,0.3897
+Lloyd (k-means++),1.605e+05,+0.34,8,0.14,2,27.0%,0.2730,0.0944,0.5970,0.3189
+Elkan (k-means++),1.593e+05,-0.44,10,0.07,1,27.2%,0.2720,0.0932,0.6287,0.3508
+MiniBatch k-means,1.591e+05,-0.55,34,0.30,4,26.0%,0.2665,0.0979,0.6733,0.3050
+Multi-resolution FQ,1.585e+05,-0.90,2,0.13,0,27.2%,0.2710,0.0947,0.6850,0.3622
