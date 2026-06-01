@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The 13-Algorithm Benchmark · Hazard Quantization</title>
+<meta name="description" content="Interactive timing, distortion and Pareto analysis of 13 clustering algorithms as drop-in replacements for the FQ-IDCVT Lloyd loop.">
+<link rel="stylesheet" href="/assets/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23ff7a3d'/%3E%3C/svg%3E">
+</head>
+<body>
+
+<header class="nav">
+  <div class="container nav-inner">
+    <a class="brand" href="/"><span class="dot"></span><span>Hazard Quantization<br><small>FQ-IDCVT benchmark</small></span></a>
+    <nav class="links">
+      <a href="/">Overview</a>
+      <a href="/algorithms/" class="active">Algorithms</a>
+      <a href="/seismic/">Seismic application</a>
+      <a href="https://github.com/noyo12394/Functional_Quantization_of_infinitedimensional_vernoi_tasslelations-">Code ↗</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero" style="padding:84px 0 56px">
+  <div class="container">
+    <div class="eyebrow">Test bed 1 · 1-D nonstationary lognormal process</div>
+    <h1 class="title" style="font-size:clamp(1.8rem,4.4vw,2.9rem)">Thirteen engines for<br><span class="grad">one clustering loop</span></h1>
+    <p class="lede">Each algorithm replaces the Lloyd loop inside FQ-IDCVT. Same input (N<sub>sim</sub> = 3,000 realizations),
+      same output (N = 50 weighted quanta), same convergence criterion. Below: how they actually behave as the
+      discretization resolution R climbs from 128 to 16,384.</p>
+    <div class="toc">
+      <a href="#timing">Timing vs resolution</a>
+      <a href="#heat">Cost heatmap</a>
+      <a href="#pareto">Time–quality Pareto</a>
+      <a href="#cards">Algorithm catalogue</a>
+      <a href="#guide">Selection guide</a>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="timing">
+  <div class="container">
+    <div class="kicker">Figure · scaling</div>
+    <h2 class="section-title">How runtime scales with resolution</h2>
+    <p class="note">Mean wall-clock time over 50 runs, log–log axes. Watch <b>Ultra-Fast CVT</b> stay flat while the
+      tree-based methods (ANN-FQ, KD-ANN-FQ) and EM/GMM climb steeply.</p>
+    <div class="chart-card reveal">
+      <h3>Mean computational time vs R</h3>
+      <p class="sub">log–log · seconds · N<sub>sim</sub> = 3,000 · N = 50 · n<sub>iter</sub> ≤ 100</p>
+      <div id="timing-line"></div>
+      <div class="legend" id="timing-legend"></div>
+    </div>
+    <div class="callout reveal">
+      <b>R-independence is the whole game.</b> For R &gt; 1024, KN runs ~1.5 orders of magnitude faster than LX,
+      and Ultra-Fast CVT holds ~0.30 s regardless of resolution — while EM/GMM's O(R³) covariance step makes it
+      the slowest above R = 512.
+    </div>
+  </div>
+</section>
+
+<section class="block" id="heat">
+  <div class="container">
+    <div class="kicker">Figure · the full matrix</div>
+    <h2 class="section-title">Every algorithm, every resolution</h2>
+    <p class="note">Mean time in seconds, colour-mapped on a log scale. Green is fast, red is slow. Hover any cell.</p>
+    <div class="chart-card reveal">
+      <h3>Timing heatmap</h3>
+      <p class="sub">rows sorted fastest → slowest by mean time across R</p>
+      <div id="heatmap"></div>
+      <div class="colorbar"><span>fast</span><div class="bar"></div><span>slow (log s)</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="pareto">
+  <div class="container">
+    <div class="kicker">Figure · the trade-off</div>
+    <h2 class="section-title">Speed against quality, on one plane</h2>
+    <p class="note">Mean time (x) versus composite score (y) — bottom-left is the sweet spot. Marker colour encodes
+      whether the method reaches a true CVT.</p>
+    <div class="chart-card reveal">
+      <h3>Time–quality positioning</h3>
+      <p class="sub">x: mean time across all R (s) · y: composite score (lower = better)</p>
+      <div id="pareto"></div>
+      <div class="legend">
+        <span><i style="background:#2fd07f"></i> reaches CVT</span>
+        <span><i style="background:#ffd43b"></i> approximate CVT</span>
+        <span><i style="background:#4dabf7"></i> non-CVT one-pass</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="cards">
+  <div class="container">
+    <div class="kicker">Reference</div>
+    <h2 class="section-title">The algorithm catalogue</h2>
+    <p class="note">Thirteen drop-in replacements for the Lloyd loop — complexity, CVT guarantee, and what each one is for.</p>
+    <div class="algo-grid" id="algo-cards"></div>
+  </div>
+</section>
+
+<section class="block" id="ranks">
+  <div class="container">
+    <div class="kicker">Table 3</div>
+    <h2 class="section-title">Ranked by mean wall-clock time</h2>
+    <div class="table-wrap reveal">
+      <table id="rank-table">
+        <thead><tr><th>#</th><th>Algorithm</th><th class="num">Mean time (s)</th><th class="num">Composite</th><th>CVT?</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <p class="note" style="font-size:.84rem">Timing averaged over R ∈ {128 … 16,384}, N<sub>sim</sub> = 3,000, N = 50, 50 experiments.
+      ANN-FQ / KD-ANN-FQ are slow here because full iterative CVT rebuilds the tree every iteration.</p>
+  </div>
+</section>
+
+<section class="block" id="guide">
+  <div class="container">
+    <div class="kicker">Table 7</div>
+    <h2 class="section-title">Practical selection guide</h2>
+    <p class="note">Match the engine to the job.</p>
+    <div class="table-wrap reveal">
+      <table id="guide-table">
+        <thead><tr><th>Use case</th><th>Recommended</th><th>Why</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div><b style="color:var(--text)">Test bed 1 — algorithm benchmark</b><br>Data: paper Tables 2, 3, 5 &amp; 7.</div>
+    <div><a href="/">Overview</a> · <a href="/seismic/">Seismic →</a></div>
+  </div>
+</footer>
+
+<script src="/assets/data.js"></script>
+<script src="/assets/app.js"></script>
+<script>
+  const FEATURED = ["Ultra-Fast","KN","LX","LE","LK","EM/GMM","ANN-FQ","KD-ANN-FQ","RP-ANN-FQ","MR-FQ"];
+  function draw() {
+    // line chart
+    FQ.lineChart("#timing-line", {
+      x: R_LEVELS, logY: true, height: 460,
+      xlabel: "Resolution R (grid points)", ylabel: "Mean time (s)",
+      series: FEATURED.map(c => ({ name: c, color: ALGOS[c].color, y: TIMING[c] }))
+    });
+    $("#timing-legend").innerHTML = FEATURED.map(c =>
+      `<span><i style="background:${ALGOS[c].color}"></i>${c}</span>`).join("");
+
+    // heatmap, rows fastest -> slowest
+    const order = MEAN_TIME.filter(m => TIMING[m.code]).map(m => m.code);
+    FQ.heatmap("#heatmap", order, R_LEVELS.map(String), order.map(c => TIMING[c]));
+
+    // pareto
+    const scoreOf = c => (COMPOSITE.find(d => d.code === c) || {}).score;
+    const pts = MEAN_TIME.filter(m => scoreOf(m.code) != null).map(m => {
+      const cvt = ALGOS[m.code].cvt;
+      return { code: m.code, x: m.t, y: scoreOf(m.code),
+        color: cvt === "Yes" ? "#2fd07f" : cvt === "Approx." ? "#ffd43b" : "#4dabf7" };
+    });
+    FQ.scatter("#pareto", pts, { xlabel: "Mean time (s)", ylabel: "Composite score (lower = better)", height: 460 });
+  }
+  draw();
+  document.addEventListener("fq:redraw", draw);
+
+  // algorithm cards
+  $("#algo-cards").innerHTML = COMPOSITE.map(d => {
+    const a = ALGOS[d.code];
+    return `<div class="algo reveal in" style="border-left-color:${a.color}">
+      <div class="top"><span class="code">${d.code}</span>
+        <span class="meta">
+          ${a.cvt === "Yes" ? '<span class="pill yes">CVT</span>' : a.cvt === "Approx." ? '<span class="pill">≈CVT</span>' : '<span class="pill">one-pass</span>'}
+          ${a.novel ? '<span class="pill novel">novel</span>' : ''}
+        </span></div>
+      <div class="big">${a.big}</div>
+      <p>${a.blurb}</p></div>`;
+  }).join("");
+
+  // rank table
+  const scoreOf = c => (COMPOSITE.find(d => d.code === c) || {}).score;
+  $("#rank-table tbody").innerHTML = MEAN_TIME.map((m, i) => {
+    const sc = scoreOf(m.code), a = ALGOS[m.code] || {};
+    return `<tr><td>${i + 1}</td><td><b>${m.code}</b></td>
+      <td class="num">${m.t.toFixed(4)}</td>
+      <td class="num">${sc != null ? sc.toFixed(3) : "—"}</td>
+      <td>${a.cvt === "Yes" ? '<span class="best">Yes</span>' : (a.cvt || "—")}</td></tr>`;
+  }).join("");
+
+  // guide table
+  $("#guide-table tbody").innerHTML = GUIDE.map(g =>
+    `<tr><td style="white-space:normal;max-width:260px"><b>${g.use}</b></td>
+     <td style="white-space:normal"><span class="best">${g.rec}</span></td>
+     <td style="white-space:normal;color:var(--muted)">${g.why}</td></tr>`).join("");
+</script>
+</body>
+</html>

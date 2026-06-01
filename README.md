@@ -8,6 +8,15 @@ Functional quantization (FQ) replaces a random field by a small weighted set of 
 
 ![Pareto teaser](results/sample/figures/pareto_R4096.png)
 
+## Interactive results site
+
+An interactive companion site lives in [`site/`](site/) and is deployed on Vercel. It presents the work as
+three pages — an **Overview**, the **13-algorithm benchmark** (interactive timing, cost heatmap and
+time–quality Pareto charts), and the **seismic Hazard-Quantization application** (exceedance,
+autocorrelation, N-sensitivity and resolution-scaling figures regenerated from this study's recalculation
+notebook). It is a static, dependency-free site with hand-rolled SVG charts; Vercel serves `site/` via the
+root `vercel.json`. Preview locally with `python -m http.server -d site 8000`.
+
 ## Visible sample results
 
 The repository includes a lightweight pre-run sample under `results/sample/` so the figures render immediately on GitHub before a full paper-scale run. These images are smoke-test artifacts, not a substitute for the final paper results; regenerate paper-scale figures with the commands below after the updated result set is ready.

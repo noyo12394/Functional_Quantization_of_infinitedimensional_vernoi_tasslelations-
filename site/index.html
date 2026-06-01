@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hazard Quantization · Computational Techniques for Disaster Scenario Selection</title>
+<meta name="description" content="An interactive companion to the FQ-IDCVT clustering benchmark for seismic Hazard Quantization — 13 algorithms, two orders of magnitude, one optimal scenario set.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="/assets/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23ff7a3d'/%3E%3C/svg%3E">
+</head>
+<body>
+
+<header class="nav">
+  <div class="container nav-inner">
+    <a class="brand" href="/">
+      <span class="dot"></span>
+      <span>Hazard Quantization<br><small>FQ-IDCVT benchmark</small></span>
+    </a>
+    <nav class="links">
+      <a href="/">Overview</a>
+      <a href="/algorithms/">Algorithms</a>
+      <a href="/seismic/">Seismic application</a>
+      <a href="https://github.com/noyo12394/Functional_Quantization_of_infinitedimensional_vernoi_tasslelations-">Code ↗</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <div class="eyebrow">Mursel · Chatterjee · Conus · Huang · Miranda · Bocchini — 2026</div>
+    <h1 class="title">Computational techniques for<br><span class="grad">disaster scenario selection</span></h1>
+    <p class="lede">
+      Regional hazard maps are two-dimensional, non-Gaussian random fields. <b>Hazard Quantization</b>
+      distils an unlimited ensemble of intensity-measure maps into a small, optimally weighted set of
+      representative scenarios via Functional Quantization by Infinite-Dimensional Centroidal Voronoi
+      Tessellation (FQ-IDCVT). This is an interactive tour of the benchmark that asks one question:
+      <b>which clustering engine should drive the loop?</b>
+    </p>
+    <div class="authors">Lehigh University · Center for Catastrophe Modeling and Resilience · Hofstra University</div>
+    <div class="cta">
+      <a class="btn primary" href="/algorithms/">Explore the 13-algorithm benchmark →</a>
+      <a class="btn" href="/seismic/">Seismic validation</a>
+    </div>
+    <div class="badge-row">
+      <span class="badge">N_sim = 3,000</span>
+      <span class="badge">R = 128 → 16,384</span>
+      <span class="badge">50 independent runs</span>
+      <span class="badge">Abrahamson–Silva 1997</span>
+      <span class="badge">Jayaram–Baker 2009</span>
+    </div>
+  </div>
+</section>
+
+<section class="block">
+  <div class="container">
+    <div class="stats reveal">
+      <div class="stat"><div class="num"><span data-count="13" data-dec="0">0</span></div><div class="lbl">clustering algorithms evaluated</div></div>
+      <div class="stat"><div class="num"><span data-count="2" data-dec="0">0</span>×10²</div><div class="lbl">runtime spread, fastest→slowest</div></div>
+      <div class="stat"><div class="num"><span data-count="0.089" data-dec="3">0</span></div><div class="lbl">best composite score (Ultra-Fast CVT)</div></div>
+      <div class="stat"><div class="num">±<span data-count="0.02" data-dec="2">0</span></div><div class="lbl">autocorrelation error, seismic HQ</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="block">
+  <div class="container">
+    <div class="kicker">The headline result</div>
+    <h2 class="section-title">Algorithm choice moves runtime by ~100×<br>— at negligible loss of accuracy</h2>
+    <p class="note reveal">
+      Every algorithm receives the same realizations and emits the same kind of output: <code>N</code> weighted
+      quanta. They differ only in <i>how</i> they solve the Lloyd loop. The composite time–quality score
+      (equal weights on speed and distortion, lower is better) collapses both dimensions into one ranking.
+    </p>
+
+    <div class="chart-card reveal">
+      <h3>Composite time–quality trade-off score</h3>
+      <p class="sub">Equal weights w<sub>t</sub> = w<sub>q</sub> = 0.5 · lower is better · CVT-achieving methods marked in green</p>
+      <div id="composite-bar"></div>
+    </div>
+
+    <div class="callout green reveal">
+      <b>Ultra-Fast CVT wins overall (0.089)</b> by combining continuation warm-starts, random-projection
+      dimensionality reduction and adaptive early stopping — its wall-clock time is essentially
+      <b>independent of resolution R</b>. Among methods that provably reach a Centroidal Voronoi Tessellation,
+      <b>LK (Lloyd + k-means++)</b> is the recommended default.
+    </div>
+  </div>
+</section>
+
+<section class="block">
+  <div class="container">
+    <div class="kicker">Two test beds</div>
+    <h2 class="section-title">One framework, validated two ways</h2>
+    <div class="grid cols-2" style="margin-top:28px">
+      <a class="card reveal" href="/algorithms/" style="text-decoration:none;color:inherit">
+        <div class="icon">📈</div>
+        <h4>1-D controlled benchmark</h4>
+        <p>A nonstationary lognormal process across eight resolution levels (R = 128 → 16,384), three
+        spectral density functions, 50 runs each. Pure measurement of distortion, time, and CVT
+        convergence. <span class="tag">→ Algorithms</span></p>
+      </a>
+      <a class="card reveal" href="/seismic/" style="text-decoration:none;color:inherit">
+        <div class="icon">🌎</div>
+        <h4>2-D seismic Hazard Quantization</h4>
+        <p>Spatially correlated spectral-acceleration maps over a Southern California domain, two strike-slip
+        faults, AS97 ground-motion model. Marginal exceedance + autocorrelation fidelity.
+        <span class="tag">→ Seismic</span></p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="block">
+  <div class="container">
+    <div class="kicker">What is Hazard Quantization?</div>
+    <h2 class="section-title">From an infinite ensemble to a handful of scenarios</h2>
+    <div class="grid cols-3" style="margin-top:28px">
+      <div class="card reveal"><div class="icon">①</div><h4>Simulate</h4><p>Draw N<sub>sim</sub> synthetic intensity-measure maps — each a single realization of the regional hazard field.</p></div>
+      <div class="card reveal"><div class="icon">②</div><h4>Quantize</h4><p>The FQ-IDCVT Lloyd loop clusters maps with similar shaking patterns, returning N representative quanta + probability masses.</p></div>
+      <div class="card reveal"><div class="icon">③</div><h4>Analyze</h4><p>The weighted scenario set replaces the full ensemble as input to structural and network analyses — at a fraction of the cost.</p></div>
+    </div>
+    <div class="callout blue reveal">
+      The bottleneck is the iterative clustering loop. This study treats <b>thirteen algorithms as drop-in
+      replacements</b> for it and measures exactly what you trade when you swap engines.
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div>
+      <b style="color:var(--text)">Computational techniques for disaster scenario selection</b><br>
+      Interactive companion · built around the FQ-IDCVT benchmark &amp; seismic HQ recalculation.
+    </div>
+    <div>
+      <a href="/algorithms/">Algorithms</a> · <a href="/seismic/">Seismic</a> ·
+      <a href="https://github.com/noyo12394/Functional_Quantization_of_infinitedimensional_vernoi_tasslelations-">GitHub ↗</a>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/data.js"></script>
+<script src="/assets/app.js"></script>
+<script>
+  function draw() {
+    FQ.barChart("#composite-bar", COMPOSITE.map(d => ({
+      label: d.code, full: d.name, value: d.score,
+      color: d.cvt === "Yes" ? "#2fd07f" : (d.cvt === "Approx." ? "#ffd43b" : "#4dabf7"),
+      extra: "CVT: " + d.cvt
+    })), { tipLabel: "score", valFmt: v => v.toFixed(3) });
+  }
+  draw();
+  document.addEventListener("fq:redraw", draw);
+</script>
+</body>
+</html>
